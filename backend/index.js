@@ -9,6 +9,7 @@ const port = 8000; // server will run on this port]
 const app = express();
 const User = require("./models/User"); // import user form user model
 const authRoutes = require("./routes/auth");
+const songRoutes = require("./routes/song");
 app.use(express.json());
 
 // connecting to mongo db in cloud
@@ -53,9 +54,13 @@ passport.use(
 // API of GET type : / return text "Hello World" on screen
 app.get("/", (req,res) => {
     res.send("HELLO WORLD");
-}) 
+})
 
+// forwarding all the authentication related routes
 app.use("/auth",authRoutes);
+
+// forwarding all the authentication related routes
+app.use("/songs",songRoutes);
 
 app.listen(port,() => {
     console.log("App is running on this port.");
