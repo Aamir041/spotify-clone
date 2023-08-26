@@ -17,14 +17,15 @@ router.post("/register", async (req,res) => {
 
     if(user){ 
         // res.status is bydefault 200 therefore to return error we set res.status(403)
-        return res.status(403).json({error:"A user with this already exists"});
+        return res.status(403).json({error:"A user with this email already exists."});
     }
     
     // If a user does not exist.
     // Step 3 then create a new user in the db.
     // Step 3.1 : we do not store password in plain text.
     // we convert plaintext password it hash of 256 length and store that hashed password.
-    const hashedPassword = bcrypt.hash(password,10);
+    // 10 here for salt 
+    const hashedPassword = await bcrypt.hash(password,10);
 
     // Step 3.2 : Store user in db new hash password.
     const newUserData = {
@@ -34,6 +35,7 @@ router.post("/register", async (req,res) => {
         lastName,
         username
     };
+    // console.log(newUserData);
 
     const newUser = await User.create(newUserData);
 
@@ -44,6 +46,34 @@ router.post("/register", async (req,res) => {
     delete userToReturn.password;
     return res.status(200).json(userToReturn);
 
+
+})
+
+router.post("/login", async (req,res) => {
+    // Step 1 take user details such as email and password seny by user from req body
+    const {email,password} = req.body;
+
+    // Step 2 Check if a user with given email exsists. If not, the credentails are
+    const user = await User.findOne({email:email});
+    if(!user){
+        return res.status(403).json({error:"Invalid Credentials"});
+    }
+
+    // Step 3 if the user exsis check if the password is correct
+    // This is a tricky step cause stored password is hashed and it is difficult to decrypt hashed password
+    // so what we do is we hash the password given by user at the time of login and compare it with stored hash if same then good
+
+    const isPasswordValid = await bcrypt.compare(password,user.password);
+
+    if(!isPasswordValid){
+        return res.status(403).json({error:"Invalid Credentials"});
+    }
+
+    // Step 4 if the creendiatls are correct return a token to user
+    const token = await getTokens(user.email,user);
+    const userToReturn = {...user.toJSON(),token};
+    delete userToReturn.password;
+    return res.status(200).json(userToReturn);
 })
 
 module.exports = router;
