@@ -14,6 +14,11 @@ const userSchema = {
         type : String,
         required: true
     },
+    password: {
+        type: String,
+        required: true,
+        private: true,
+    },
     lastName : {
         type: String,
         required: false // by default it is false
