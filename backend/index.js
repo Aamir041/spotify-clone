@@ -8,6 +8,8 @@ require("dotenv").config(); // stores username and password for mongo db in clou
 const port = 8000; // server will run on this port]
 const app = express();
 const User = require("./models/User"); // import user form user model
+const authRoutes = require("./routes/auth");
+app.use(express.json());
 
 // connecting to mongo db in cloud
 mongoose.connect(
@@ -28,7 +30,7 @@ mongoose.connect(
 // setting passport-jwt
 let opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'thisIsSupposedToBeSecretKey';
+opts.secretOrKey = "thisKeyIsSupposedToBeSecret";
 passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
         User.findOne(
@@ -51,7 +53,9 @@ passport.use(
 // API of GET type : / return text "Hello World" on screen
 app.get("/", (req,res) => {
     res.send("HELLO WORLD");
-})
+}) 
+
+app.use("/auth",authRoutes);
 
 app.listen(port,() => {
     console.log("App is running on this port.");
