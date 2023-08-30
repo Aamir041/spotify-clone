@@ -59,7 +59,7 @@ app.get("/", (req,res) => {
 // forwarding all the authentication related routes
 app.use("/auth",authRoutes);
 
-// forwarding all the authentication related routes
+// forwarding all the song related routes
 app.use("/songs",songRoutes);
 
 app.listen(port,() => {

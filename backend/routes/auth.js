@@ -39,8 +39,9 @@ router.post("/register", async (req,res) => {
 
     const newUser = await User.create(newUserData);
 
-    //Step 4  : create a token to return to the user
+    //Step 4  : create a token to return to the user and store it
     const token = await getTokens(email,newUser);
+    
     // Step 5 return token to user
     const userToReturn = {...newUser.toJSON(),token};
     delete userToReturn.password;
