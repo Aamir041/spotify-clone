@@ -16,6 +16,7 @@ router.post(
             .status(300)
             .json({error:"Insufficient details to create song."});
         }
+        console.log(req.user.firstName);
         const artist = req.user._id;
         const songDetails = {name, thumbnail, track, artist};
         const createdSong = await Song.create(songDetails);
@@ -48,7 +49,9 @@ router.get(
         const {artistId} = req.params;
 
         // Check if  such artist exists or not
-        const artist = await User.find({_id:artistId});
+        // Instead of find use findOne cause find returns empty array where as findOne returns null/undefined if artist not found
+        const artist = await User.findOne({_id:artistId});
+
         if(!artist) return res.status(301).json({error:"User does not exist."});
 
         const songs = await Song.find({artist:artistId});
