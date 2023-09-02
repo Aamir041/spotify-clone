@@ -30,23 +30,22 @@ mongoose.connect(
 
 
 // setting passport-jwt
-let opts = {}
+let opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = "thisKeyIsSupposedToBeSecret";
 passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
-        User.findOne(
-            { id: jwt_payload.sub }, 
-            function (err, user) {
-                if (err) {
-                    return done(err, false);
-                }
-                if (user) {
-                    return done(null, user);
-                } else {
-                    return done(null, false);
-                    // or you could create a new account
-                }
+        User.findOne({_id: jwt_payload.identifier}, function (err, user) {
+            // done(error, doesTheUserExist)
+            if (err) {
+                return done(err, false);
+            }
+            if (user) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+                // or you could create a new account
+            }
         });
     })
 );
