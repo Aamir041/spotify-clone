@@ -22,10 +22,9 @@ router.post(
             name,
             thumbnail,
             songs,
-            owner:currentUser,
-            collabotaors:[currentUser._id]
+            owner:currentUser._id,
+            collabotaors:[]
         };
-        
         const playlist = await Playlist.create(playlistData);
         return res.status(200).json(playlist);
 
@@ -87,7 +86,8 @@ router.post(
         const currentUser = req.user;
 
         // Check if current user owns the playlist or is the collaborator in that playlist
-        const {playlistId,songId} = req.body;
+        const {playlistId,songId} = req.body;        
+
         
         // step 1 getting playlist
         const playlist = await Playlist.findOne({_id:playlistId});
@@ -96,8 +96,13 @@ router.post(
             return res.status(304).json({error:"Playlist Does Not Exist!"});
         }
 
+        // console.log(playlist.owner);
+        // console.log(currentUser._id);
+
+        // console.log((playlist.owner.equals(currentUser._id)));
+
         //  step 2 checking if currentUser is allowed to add songs in playlist
-        if( (playlist.owner !== currentUser._id) && !playlist.collaborators.includes(currentUser._id) ){
+        if( !(playlist.owner.equals(currentUser._id)) && !playlist.collaborators.includes(currentUser._id) ){
             return res.status(400).json({error:"Not Allowed"})
         }
         
