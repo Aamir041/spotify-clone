@@ -10,6 +10,7 @@ const app = express();
 const User = require("./models/User"); // import user form user model
 const authRoutes = require("./routes/auth");
 const songRoutes = require("./routes/song");
+const playlistRoute = require("./routes/playlist");
 app.use(express.json());
 
 // connecting to mongo db in cloud
@@ -61,6 +62,9 @@ app.use("/auth",authRoutes);
 
 // forwarding all the song related routes
 app.use("/songs",songRoutes);
+
+// forwarding all the playlist realted routes
+app.use("/playlist",playlistRoute);
 
 app.listen(port,() => {
     console.log("App is running on this port.");
