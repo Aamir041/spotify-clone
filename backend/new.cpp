@@ -1,3 +1,0 @@
-#include <bits/stdc++.h> 
-using namespace std; \
-bool valid(vector<vector<int>>& v , int m , int mid , int n){ int prev = 0; int maxi = 0; for(int i = 0 ; i < m ; i++){ if(v[i][2] > mid) continue; if(v[i][0] <= prev + 1){ prev = max(prev , v[i][1]); } } return prev >= n; } int main(){ ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL); int n , m; cin >> n >> m; vector<vector<int>>v(m); for(int i = 0 ; i < m ; i++){ int l , r , w; cin >> l >> r >> w; v[i] = {l , r , w}; } sort(v.begin() , v.end()); int l = 1 , r = 1000000000; int ans = -1; while(l <= r){ int mid = (l + r) / 2; if(valid(v , m , mid , n)){ ans = mid ; r = mid - 1; } else l = mid + 1; } cout<<ans; }
