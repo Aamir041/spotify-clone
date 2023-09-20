@@ -11,6 +11,9 @@ const User = require("./models/User"); // import user form user model
 const authRoutes = require("./routes/auth");
 const songRoutes = require("./routes/song");
 const playlistRoute = require("./routes/playlist");
+const cors = require("cors")
+
+app.use(cors());
 app.use(express.json());
 
 // connecting to mongo db in cloud
