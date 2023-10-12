@@ -4,7 +4,8 @@ import PasswordInput from '../components/Shared/PasswordInput';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { makeUnauthenticatedPOSTRequest } from '../utils/serverHelper';
-// import { data } from 'autoprefixer';
+import { useCookies } from 'react-cookie'; //  helps to set new cookies
+import { useNavigate } from 'react-router-dom';
 
 const SignupComponent = () => {
 
@@ -14,9 +15,14 @@ const SignupComponent = () => {
     const [password,setPwd] = useState();
     const [firstName,setFirstName] = useState();
     const [lastName,setLastName] = useState();
+    const [cookie,setCookie] = useCookies(["token"])
+    const navigate = useNavigate();
 
     const signUp = async () => {
-        if(email !== confirmEmail) alert("Email and Confirm Email feild must match. Please check again");
+        if(email !== confirmEmail) {
+            alert("Email and Confirm Email feild must match. Please check again");
+            return;
+        }
         
         const data = {email,password,firstName,lastName,username};
         
@@ -24,7 +30,14 @@ const SignupComponent = () => {
         
         if(response && !response.error){
             console.log(response);
-            alert("Success");
+            const token = response?.token;
+            const date = new Date();
+            // set date upto 30 days from current date
+            date.setDate(date.getDate() + 30);
+            // path stores in default cookie location of website
+            // expires basically sets the date for cookie to be alive on browser after that it gets deleted
+            setCookie("token",token,{path:"/",expires:date});
+            navigate("/home");
         }
         else{
             console.log(response.error);

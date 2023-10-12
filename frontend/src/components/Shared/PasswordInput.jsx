@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 
@@ -8,7 +9,6 @@ const PasswordInput = ({label,placeholder, styleInput,value,setValue}) => {
     return (
         <div className={`passwordInputDiv flex w-full ${styleInput} items-end space-x-3`}>
             <div className="flex flex-col w-full space-y-2">
-
                 <label className="font-semibold" htmlFor="inp">{label}</label>
                 <input
                     type={eyeOpen ? "text" : "password"}
