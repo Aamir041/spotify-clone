@@ -26,7 +26,7 @@ const songSchema = {
     artist:{
         type: mongoose.Types.ObjectId,
         // refers to user 
-        ref: "user",
+        ref: "User",
     }
 
 }

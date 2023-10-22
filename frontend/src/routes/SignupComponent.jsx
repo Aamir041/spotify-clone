@@ -29,7 +29,7 @@ const SignupComponent = () => {
         const response = await makeUnauthenticatedPOSTRequest("/auth/register",data);
         
         if(response && !response.error){
-            console.log(response);
+            // console.log(response);
             const token = response?.token;
             const date = new Date();
             // set date upto 30 days from current date
