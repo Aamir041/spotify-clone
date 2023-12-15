@@ -9,6 +9,7 @@ import UploadSongs from "./routes/UploadSong";
 import MyMusic from "./routes/MyMusic";
 import songContext from "./context/songContext";
 import { useState } from "react";
+import Home from "./routes/LoggedInHomeComponent";
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
               // If Cookie Exist go to these routes LOGGED IN ROUTES
                 <songContext.Provider value={{currentSong,setCurrentSong}}>
                   <Routes>
-                      <Route path="/home" element={<LoggedInHomeComponent />} />
+                      <Route path="/home" element={<Home />} />
                       <Route path="/uploadsong" element={<UploadSongs/>}/>
                       <Route path="/mymusic" element={<MyMusic/>}/>
                       {/* For any route that does not exist in above routes use path as "*" */}
