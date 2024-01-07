@@ -1,8 +1,17 @@
-import { url } from "../../utils/CloudinaryService";
+import { useContext } from "react";
+import songContext from "../../context/songContext";
 
 const SingleSongCard = ({info, playSound}) => {
+
+    const {currentSong,setCurrentSong} = useContext(songContext);
+
     return(
-        <div className=" text-white flex hover:bg-gray-400 hover:bg-opacity-20 p-2 rounded-md" onClick={() => playSound(info?.track)}>
+        <div className=" text-white flex hover:bg-gray-400 hover:bg-opacity-20 p-2 rounded-md"
+            onClick={() => {
+                playSound(info?.track)
+                setCurrentSong(info);
+            }}
+        >
             <div
                 className="w-12 h-12 bg-cover bg-center"
                 style={{

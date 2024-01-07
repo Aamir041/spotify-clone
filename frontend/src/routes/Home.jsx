@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import spotify_logo from "../assets/images/spotify_logo_white.svg";
 import IconText from "../components/Shared/IconText";
 import RightNavBttn from "../components/Shared/RightNavBttn";
+import { Link } from "react-router-dom";
 
 const focusData = [
   {
@@ -94,7 +95,9 @@ const HomeComponent = () => {
       <div className=" h-full w-1/5 bg-black flex flex-col justify-between pb-10">
         <div>
           <div className="logoDiv p-6">
-            <img src={spotify_logo} alt="spotify logo" width={125} />
+            <Link to={"/home"}>
+              <img src={spotify_logo} alt="spotify logo" width={125} />
+            </Link>
           </div>
           <div className="py-5">
             <IconText

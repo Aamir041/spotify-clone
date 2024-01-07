@@ -85,11 +85,11 @@ const spotifyPlaylist = [
 ]
 
 const Home = () => {
-    return(
-        <LoggedInContainer>
-             <PlaylistView titleText="Focus" cardsData={focusData} />
-             <PlaylistView titleText="Spotify Playlists" cardsData={spotifyPlaylist} />
-             <PlaylistView titleText="Sound of India" cardsData={songsOfIndia} />\
+    return (
+        <LoggedInContainer currActiveScreen={"home"}>
+            <PlaylistView titleText="Focus" cardsData={focusData} />
+            <PlaylistView titleText="Spotify Playlists" cardsData={spotifyPlaylist} />
+            <PlaylistView titleText="Sound of India" cardsData={songsOfIndia} />
         </LoggedInContainer>
     )
 }
@@ -124,7 +124,9 @@ const Card = ({ title, description, imgUrl }) => {
                 <img className="w-full" src={imgUrl} />
             </div>
             <div className="text-white font-semibold py-3">{title}</div>
-            <div className=" text-gray-400">{description}</div>
+            <div className=" text-gray-400">
+                {description?.length > 40 ? `${description?.substring(0,37)} . . .` : description }
+            </div>
         </div>
     )
 }

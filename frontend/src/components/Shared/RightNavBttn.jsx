@@ -1,14 +1,17 @@
 import { Icon } from "@iconify/react";
+import { Link } from "react-router-dom";
 
-const RightNavBttn = ({ displayText, active }) => {
+const RightNavBttn = ({ displayText, active,targetLink }) => {
     return (
-        <div className={`flex ${active ? "text-white" : "text-gray-400"} items-center justify-start cursor-pointer hover:text-white`}>
-            <div
-                className=" text-lg font-semibold"
-            >
-                {displayText}
+        <Link to={targetLink}>
+            <div className={`flex ${active ? "text-white" : "text-gray-400"} items-center justify-start cursor-pointer hover:text-white`}>
+                <div
+                    className=" text-lg font-semibold"
+                >
+                    {displayText}
+                </div>
             </div>
-        </div>
+        </Link>
     )
 }
 
