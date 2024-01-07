@@ -45,8 +45,18 @@ router.get(
         // getting parameter form request body
         const playlistId = req.params.playlistId;
 
+        if(playlistId.length !== 24){
+            return res.status(301).json({error:"Invalid Playlist Id"});
+        }
+
         // getting playlist which has same _id as playlistId
-        const playlist = await Playlist.findOne({_id:playlistId});
+        // deep popluate example
+        const playlist = await Playlist.findOne({_id:playlistId}).populate({
+            path:"songs",
+            populate:{
+                path:"artist"
+            }
+        });
 
         if(!playlist){
             return res.status(301).json({error:"Invalid Playlist Id"});
@@ -66,6 +76,27 @@ router.get(
         
         // Checking id Artist exist or not
         const artist = await User.findOne({_id:artistId});
+
+        if(!artist){
+            return res.status(301).json({error:"Invalid Artist ID"});
+        }
+
+        const playlists = await Playlist.find({owner:artistId});
+        
+        return res.status(200).json({data:playlists});
+    }
+);
+
+// Get all playlist made by an artist
+
+router.get(
+    "/get/me",
+    passport.authenticate("jwt",{session:false}),
+    async(req,res) => {
+        const artistId = req.user._id;
+        
+        // Checking id Artist exist or not
+        const artist = await User.findOne({_id:artistId}).populate("owner");
 
         if(!artist){
             return res.status(301).json({error:"Invalid Artist ID"});

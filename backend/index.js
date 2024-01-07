@@ -16,7 +16,7 @@ const cors = require("cors")
 app.use(cors());
 app.use(express.json());
 
-// connecting to mongo db in cloud
+// connecting to mongo db
 mongoose.connect(
     `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.zypdzdx.mongodb.net/?retryWrites=true&w=majority`,
     {

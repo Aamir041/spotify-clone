@@ -33,6 +33,6 @@ const songSchema = {
 
 const Song = new mongoose.Schema(songSchema);
 
-const SongModel = mongoose.model("Song",Song);
+const SongModel = mongoose.model("song",Song);
 
 module.exports = SongModel;
